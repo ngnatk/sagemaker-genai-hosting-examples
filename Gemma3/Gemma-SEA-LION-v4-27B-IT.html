@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Gemma-SEA-LION-v4-27B-Instruct</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Gemma-SEA-LION-v4-27B-IT</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7537,7 +7537,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -Uq sagemaker
@@ -7587,7 +7587,7 @@ a.anchor-link {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>sagemaker.config INFO - Not applying SDK defaults from location: /etc/xdg/sagemaker/config.yaml
 sagemaker.config INFO - Not applying SDK defaults from location: /home/sagemaker-user/.config/sagemaker/config.yaml
-2.251.0
+2.251.1
 </pre>
 </div>
 </div>
@@ -7669,7 +7669,7 @@ sagemaker.config INFO - Not applying SDK defaults from location: /home/sagemaker
 </ul>
 <h4 id="Understanding-KV-Cache-and-Context-Window">Understanding KV Cache and Context Window<a class="anchor-link" href="#Understanding-KV-Cache-and-Context-Window">¶</a></h4><p>The <code>max_model_len</code> parameter controls the maximum sequence length the model can handle, which directly affects the size of the KV (Key-Value) cache in GPU memory.</p>
 <ol>
-<li>Start with a conservative value (current: 32768)</li>
+<li>Start with a conservative value (8192 has been tested successfully with g5.12xlarge, 32768 with g6e.48xlarge)</li>
 <li>Monitor GPU memory usage</li>
 <li>Incrementally increase if memory permits</li>
 <li>Target the model's full context window</li>
@@ -7722,7 +7722,7 @@ sagemaker.config INFO - Not applying SDK defaults from location: /home/sagemaker
 <span class="s2">option.tensor_parallel_degree=max</span>
 <span class="s2">option.model_loading_timeout=1200</span>
 <span class="s2">fail_fast=true</span>
-<span class="s2">option.max_model_len=32768</span>
+<span class="s2">option.max_model_len=8192</span>
 <span class="s2">option.max_rolling_batch_size=16</span>
 <span class="s2">option.trust_remote_code=true</span>
 <span class="s2">option.model_id=</span><span class="si">{</span><span class="n">HF_MODEL_ID</span><span class="si">}</span>
@@ -7770,7 +7770,7 @@ sagemaker.config INFO - Not applying SDK defaults from location: /home/sagemaker
 <span class="ansi-cyan-fg">option.tensor_parallel_degree</span>=<span class="ansi-yellow-fg">max</span>
 <span class="ansi-cyan-fg">option.model_loading_timeout</span>=<span class="ansi-yellow-fg">1200</span>
 <span class="ansi-cyan-fg">fail_fast</span>=<span class="ansi-yellow-fg">true</span>
-<span class="ansi-cyan-fg">option.max_model_len</span>=<span class="ansi-yellow-fg">32768</span>
+<span class="ansi-cyan-fg">option.max_model_len</span>=<span class="ansi-yellow-fg">8192</span>
 <span class="ansi-cyan-fg">option.max_rolling_batch_size</span>=<span class="ansi-yellow-fg">16</span>
 <span class="ansi-cyan-fg">option.trust_remote_code</span>=<span class="ansi-yellow-fg">true</span>
 <span class="ansi-cyan-fg">option.model_id</span>=<span class="ansi-yellow-fg">aisingapore/Gemma-SEA-LION-v4-27B-IT</span>
@@ -7830,7 +7830,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sagemaker.s3</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3Uploader</span>
@@ -7851,7 +7851,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># print(f"code_model_uri: {config_files_uri}")</span>
@@ -7867,18 +7867,26 @@ The LMI container supports separating configuration files from model artifacts. 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Configure-Model-Container-and-Instance">Configure Model Container and Instance<a class="anchor-link" href="#Configure-Model-Container-and-Instance">¶</a></h2><p>For deploying Gemma-3-27B-it, we'll use:</p>
+<h2 id="Configure-Model-Container-and-Instance">Configure Model Container and Instance<a class="anchor-link" href="#Configure-Model-Container-and-Instance">¶</a></h2><p>For deploying Gemma-SEA-LION-v4-27B-IT, we'll use:</p>
 <ul>
 <li><strong>LMI (Deep Java Library) Inference Container</strong>: A container optimized for large language model inference</li>
-<li><strong><a href="https://aws.amazon.com/ec2/instance-types/g6e/">G6e Instance</a></strong>: AWS's GPU instance type powered by NVIDIA L40S Tensor Core GPUs</li>
+<li><strong><a href="https://aws.amazon.com/ec2/instance-types/g5/">G5 Instances</a></strong>: AWS's GPU instance type powered by NVIDIA A10G Tensor Core GPUs, or <strong><a href="https://aws.amazon.com/ec2/instance-types/g6e/">G6e Instances</a></strong>: AWS's GPU instance type powered by NVIDIA L40S Tensor Core GPUs</li>
 </ul>
 <p>Key configurations:</p>
 <ul>
 <li>The container URI points to the DJL inference container in ECR (Elastic Container Registry)</li>
-<li>We use <code>ml.g6e.48xlarge</code> instance which offer:<ul>
+<li>We use <code>ml.g5.12xlarge</code> instance which offers:<ul>
+<li>4 NVIDIA A10G Tensor Core GPUs</li>
+<li>96 GB of total GPU memory (24 GB of memory per GPU)</li>
+<li>up to 40 Gbps of network bandwidth (16 Gbps of EBS bandwidth)</li>
+<li>up to 192 GB of system memory</li>
+<li>and up to 3.8 TB of local NVMe SSD storage.</li>
+</ul>
+</li>
+<li>We can also use <code>ml.g6e.48xlarge</code> instance which offers:<ul>
 <li>8 NVIDIA L40S Tensor Core GPUs</li>
 <li>384 GB of total GPU memory (48 GB of memory per GPU)</li>
-<li>up to 400 Gbps of network bandwidth</li>
+<li>up to 400 Gbps of network bandwidth (60 Gbps of EBS bandwidth)</li>
 <li>up to 1.536 TB of system memory</li>
 <li>and up to 7.6 TB of local NVMe SSD storage.</li>
 </ul>
@@ -7890,15 +7898,52 @@ The LMI container supports separating configuration files from model artifacts. 
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2d359347-fbc1-4aaf-b489-20ac63bfa519">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Note the following costs of running ml.g5.12xlarge, and ml.g6e.48xlarge instances in us-east-1 (SageMaker Realtime Inference):</p>
+<table>
+<thead>
+<tr>
+<th>Instance Type</th>
+<th>Cost/hr</th>
+<th>Cost/day</th>
+<th>Cost/month</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ml.g5.12xlarge</code></td>
+<td>USD  7.09</td>
+<td>USD 170.16</td>
+<td>USD  5,175.70</td>
+</tr>
+<tr>
+<td><code>ml.g6e.48xlarge</code></td>
+<td>USD 37.664</td>
+<td>USD 903.936</td>
+<td>USD 27,494.72</td>
+</tr>
+</tbody>
+</table>
+<p>If you are not using the instances 24/7, it is highly recommended that you consider deleting the endpoints, or choosing an option such as <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/endpoint-auto-scaling-zero-instances.html">SageMaker Scale down to zero feature</a> as mentioned in this blog post: <a href="https://aws.amazon.com/blogs/machine-learning/unlock-cost-savings-with-the-new-scale-down-to-zero-feature-in-amazon-sagemaker-inference/">Unlock cost savings with the new scale down to zero feature in SageMaker Inference</a></p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b16a3759-4cce-4a69-9f77-68251aabbb25">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">gpu_instance_type</span> <span class="o">=</span> <span class="s2">"ml.g6e.48xlarge"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># gpu_instance_type = "ml.g6e.48xlarge"</span>
+<span class="n">gpu_instance_type</span> <span class="o">=</span> <span class="s2">"ml.g5.12xlarge"</span>
 </pre></div>
 </div>
 </div>
@@ -7909,7 +7954,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">image_uri</span> <span class="o">=</span> <span class="s2">"763104351884.dkr.ecr.</span><span class="si">{}</span><span class="s2">.amazonaws.com/djl-inference:0.33.0-lmi15.0.0-cu128"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sagemaker_session</span><span class="o">.</span><span class="n">boto_session</span><span class="o">.</span><span class="n">region_name</span><span class="p">)</span>
@@ -7957,7 +8002,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <li>CloudWatch permissions for logging</li>
 <li>ECR permissions to pull the container</li>
 </ul>
-<h4 id="HUGGING_FACE_HUB_TOKEN">HUGGING_FACE_HUB_TOKEN<a class="anchor-link" href="#HUGGING_FACE_HUB_TOKEN">¶</a></h4><p>Gemma-3-27B-Instruct is a gated model. Therefore, if you deploy model files hosted on the Hub, you need to provide your HuggingFace token as environment variable. This enables SageMaker AI to download the files at runtime.</p>
+<h4 id="HUGGING_FACE_HUB_TOKEN">HUGGING_FACE_HUB_TOKEN<a class="anchor-link" href="#HUGGING_FACE_HUB_TOKEN">¶</a></h4><p>This is not required for Gemma-SEA-LION-v4-27B-IT. Note that it is required for Gemma-3-27B-Instruct, which is a gated model. If you deploy model files hosted on the Hub, you need to provide your HuggingFace token as environment variable. This enables SageMaker AI to download the files at runtime.</p>
 </div>
 </div>
 </div>
@@ -7966,7 +8011,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Specify the S3 URI for your uncompressed config files</span>
@@ -7987,7 +8032,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">HUGGING_FACE_HUB_TOKEN</span> <span class="o">=</span> <span class="s2">"hf_ (fill in you Hugging Face Hub token here)"</span>
@@ -8001,7 +8046,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sagemaker.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">name_from_base</span>
@@ -8019,9 +8064,9 @@ The LMI container supports separating configuration files from model artifacts. 
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'gemma-sea-lion-v4-27b-it-250825-0926'</pre>
+<pre>'gemma-sea-lion-v4-27b-it-250901-0658'</pre>
 </div>
 </div>
 </div>
@@ -8031,10 +8076,21 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create model</span>
+<span class="c1"># sealion_4_model = Model(</span>
+<span class="c1">#     name = model_name,</span>
+<span class="c1">#     image_uri=image_uri,</span>
+<span class="c1">#     model_data=model_data,  # Path to uncompressed code files</span>
+<span class="c1">#     role=role,</span>
+<span class="c1">#     env={</span>
+<span class="c1">#         "HF_TASK": "Image-Text-to-Text",</span>
+<span class="c1">#         "OPTION_LIMIT_MM_PER_PROMPT": "image=2", # Limit the number of images that can be sent per prompt</span>
+<span class="c1">#         "HUGGING_FACE_HUB_TOKEN": HUGGING_FACE_HUB_TOKEN # HF Token for gated models</span>
+<span class="c1">#     },</span>
+<span class="c1"># )</span>
 <span class="n">sealion_4_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">model_name</span><span class="p">,</span>
     <span class="n">image_uri</span><span class="o">=</span><span class="n">image_uri</span><span class="p">,</span>
@@ -8042,9 +8098,8 @@ The LMI container supports separating configuration files from model artifacts. 
     <span class="n">role</span><span class="o">=</span><span class="n">role</span><span class="p">,</span>
     <span class="n">env</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">"HF_TASK"</span><span class="p">:</span> <span class="s2">"Image-Text-to-Text"</span><span class="p">,</span>
-        <span class="s2">"OPTION_LIMIT_MM_PER_PROMPT"</span><span class="p">:</span> <span class="s2">"image=2"</span><span class="p">,</span> <span class="c1"># Limit the number of images that can be sent per prompt</span>
-        <span class="s2">"HUGGING_FACE_HUB_TOKEN"</span><span class="p">:</span> <span class="n">HUGGING_FACE_HUB_TOKEN</span> <span class="c1"># HF Token for gated models</span>
-    <span class="p">},</span>
+        <span class="s2">"OPTION_LIMIT_MM_PER_PROMPT"</span><span class="p">:</span> <span class="s2">"image=2"</span> <span class="c1"># Limit the number of images that can be sent per prompt</span>
+    <span class="p">}</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8066,7 +8121,7 @@ The LMI container supports separating configuration files from model artifacts. 
 </ol>
 <h3 id="Deployment-Configuration">Deployment Configuration<a class="anchor-link" href="#Deployment-Configuration">¶</a></h3><ul>
 <li><strong>Instance Count</strong>: 1 instance for single-node deployment</li>
-<li><strong>Instance Type</strong>: <code>ml.g6e.48xlarge</code> for high-performance inference</li>
+<li><strong>Instance Type</strong>: <code>ml.g5.12xlarge</code> for high-performance inference</li>
 </ul>
 <blockquote>
 <p>⚠️ <strong>Important</strong>:</p>
@@ -8089,12 +8144,12 @@ The LMI container supports separating configuration files from model artifacts. 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=bafb2f42-4790-4c12-850e-b7482c05be69">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bafb2f42-4790-4c12-850e-b7482c05be69">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
@@ -8116,6 +8171,20 @@ The LMI container supports separating configuration files from model artifacts. 
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>----------------------!CPU times: user 440 ms, sys: 35.9 ms, total: 476 ms
+Wall time: 11min 33s
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dc83950a-ff8d-4344-add3-6c88b48b8d36">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -8132,7 +8201,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sagemaker.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONSerializer</span><span class="p">,</span> <span class="n">IdentitySerializer</span>
@@ -8148,7 +8217,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Option 1: Automatically retrieve the first endpoint (if this is your only endpoint)</span>
@@ -8173,7 +8242,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Using endpoint: gemma-sea-lion-v4-27b-it-250825-0928
+<pre>Using endpoint: gemma-sea-lion-v4-27b-it-250901-0659
 </pre>
 </div>
 </div>
@@ -8184,7 +8253,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">predictor</span> <span class="o">=</span> <span class="n">Predictor</span><span class="p">(</span>
@@ -8213,7 +8282,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">invoke_sealion</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">print_response</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -8254,7 +8323,7 @@ The LMI container supports separating configuration files from model artifacts. 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">invoke_sealion</span><span class="p">(</span><span class="s2">"Write me a poem about Machine Learning."</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
@@ -8273,40 +8342,40 @@ The LMI container supports separating configuration files from model artifacts. 
 <pre>## The Algorithm's Dream
 
 No longer coded, line by rigid line,
-A new intelligence begins to shine.
-Machine Learning, a whisper, then a roar,
-Learning from data, wanting more and more.
+A different path, a future intertwined.
+Machine Learning wakes, a nascent mind,
+To learn from data, of every kind.
 
-It starts with patterns, hidden in the haze,
-A million examples in a digital maze.
-Features extracted, a careful, keen eye,
-To find the connections as the moments fly.
+It sifts through oceans, a digital tide,
+Of patterns hidden, where truths reside.
+From labeled examples, a knowledge gleaned,
+A predictive power, subtly seen.
 
-Regression's curve, predicting what will be,
-Classification sorting, for you and for me.
-Clustering groups, where similarities reside,
-Uncovering secrets, deep inside.
+Regression's curve, a gentle slope,
+Classification's choice, fueled by hope.
+Clustering's dance, to group and define,
+Uncovering structures, beautifully aligned.
 
-Neural networks layered, a mimicking brain,
-Connections strengthening, again and again.
-Backpropagation's dance, a subtle, slow art,
-Adjusting the weights, playing a crucial part.
+Neural networks bloom, a complex array,
+Layers connecting, day by day.
+Backpropagation's flow, a constant quest,
+To minimize error, and be the best.
 
 From spam detection to faces it knows,
 From medical diagnoses to where the river flows.
-It learns to translate, to write, and to see,
-A powerful tool, for you and for me.
+It learns to translate, to write and to see,
+A growing intelligence, for you and for me.
 
-But caution is needed, a mindful embrace,
-Bias can creep in, leaving a flawed trace.
-Explainability sought, a transparent view,
-To understand *why* it does what it do.
+But caution whispers, a thoughtful plea,
+Bias can linger, for all to see.
+Transparency needed, a guiding light,
+To build with fairness, and do what is right.
 
-So let the algorithms learn and evolve,
-A future unfolding, problems to resolve.
-The algorithm's dream, a world understood,
-Powered by data, for the common good.
-=== Token Usage: 17 (prompt), 290 (completions), 307 (total) ===
+So let the algorithms learn and grow,
+But with wisdom and ethics, let the knowledge flow.
+For in this machine, a potential lies,
+To shape a future, before our eyes.
+=== Token Usage: 17 (prompt), 283 (completions), 300 (total) ===
 </pre>
 </div>
 </div>
@@ -8317,7 +8386,7 @@ Powered by data, for the common good.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">SAMPLE_PROMPTS</span> <span class="o">=</span> <span class="p">[</span>
@@ -8339,13 +8408,13 @@ Powered by data, for the common good.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">prompt</span> <span class="ow">in</span> <span class="n">SAMPLE_PROMPTS</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"##### Prompt: </span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="s2"> #####"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"##### Response #####"</span><span class="p">)</span>
-    <span class="n">_</span> <span class="o">=</span> <span class="n">invoke_sealion</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">invoke_sealion</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -8363,27 +8432,27 @@ Powered by data, for the common good.
 ##### Response #####
 Here's the English translation of the provided text:
 
-This boy, who is technically not allowed to have an account on this site for the next three years, discovered a bug (an error caused by design imperfections) that allowed him to delete comments made by other users. The issue was “quickly” fixed after it was discovered, according to Facebook, the social media company that owns Instagram. Jani was then paid – making him the youngest person ever to receive a bounty for discovering this bug. After finding the vulnerability in February, he emailed Facebook. 
+This boy, who is technically not allowed to have an account on this site for the next three years, discovered a bug (an error caused by design imperfections) that allowed him to delete comments made by other users. Facebook, the social media company that owns Instagram, stated the issue was “quickly” fixed after it was discovered. Jani was then paid – making him the youngest person ever to receive a bounty for finding this bug. After discovering the vulnerability in February, he emailed Facebook. 
 
 **Buy a bike and football equipment**
 
 A number of security engineering experts at the company created a test account for Jani to prove his theory – and he was able to do so. The boy, from Helsinki, told the Finnish newspaper Iltalehti he plans to use the money to buy a new bike, football equipment, and a computer for his brother. Facebook told the BBC it has paid out $4.3 million in bug bounty rewards since 2011. Many companies offer financial incentives to security professionals – and young people – who report vulnerabilities to them, rather than selling them on the dark market.
-=== Token Usage: 273 (prompt), 241 (completions), 514 (total) ===
+=== Token Usage: 273 (prompt), 240 (completions), 513 (total) ===
 
 ##### Prompt: Apa sentimen dari kalimat berikut ini? Kalimat: Buku ini sangat membosankan. Jawaban: #####
 ##### Response #####
 Jawaban: **Negatif**
 
-Kalimat "Buku ini sangat membosankan" mengekspresikan ketidakpuasan dan perasaan tidak tertarik terhadap buku tersebut. Kata "membosankan" memiliki konotasi negatif yang jelas.
-=== Token Usage: 30 (prompt), 52 (completions), 82 (total) ===
+Kalimat "Buku ini sangat membosankan" mengekspresikan ketidakpuasan dan perasaan tidak tertarik terhadap buku tersebut. Kata "membosankan" memiliki konotasi negatif, sehingga sentimen keseluruhan kalimat adalah negatif.
+=== Token Usage: 30 (prompt), 58 (completions), 88 (total) ===
 
 ##### Prompt: Anda akan diberikan sebuah teks dan pertanyaan. Jawablah pertanyaan tersebut berdasarkan teks yang tersedia. &gt; Teks: “Isyana lahir di Bandung pada 2 Mei 1993. Dia menghabiskan masa kecilnya di berbagai lokasi, karena orang tuanya bekerja &amp; melanjutkan studi mereka di Belgia. Namun, pada usia 7 tahun keluarganya pindah ke Bandung, Indonesia. Isyana adalah putri bungsu dari pasangan Luana Marpanda, seorang guru musik, dan Sapta Dwikardana, Ph.D seorang dosen dan terapis (grafologis). Ia memiliki kakak perempuan bernama Rara Sekar Larasati, yang juga merupakan vokalis band bernama Banda Neira. Dibesarkan dalam keluarga pendidik, Isyana diperkenalkan ke dunia musik pada usia 4 tahun oleh ibunya. Isyana telah menguasai sejumlah instrumen. Termasuk piano, electone, flute, biola, dan saksofon.” &gt; Pertanyaan: Siapa nama orang tua Isyana? #####
 ##### Response #####
 Berdasarkan teks, nama orang tua Isyana adalah:
 
-*   **Luana Marpanda** (ibu)
-*   **Sapta Dwikardana, Ph.D** (ayah)
-=== Token Usage: 212 (prompt), 43 (completions), 255 (total) ===
+*   **Luana Marpanda** (ibu), seorang guru musik.
+*   **Sapta Dwikardana, Ph.D** (ayah), seorang dosen dan terapis (grafologis).
+=== Token Usage: 212 (prompt), 56 (completions), 268 (total) ===
 
 ##### Prompt: Sebutkan persamaan dan perbedaan antara gado-gado, ketoprak dan karedok #####
 ##### Response #####
@@ -8392,22 +8461,28 @@ Tentu, mari kita bahas persamaan dan perbedaan antara gado-gado, ketoprak, dan k
 **Persamaan:**
 
 *   **Bahan Dasar:** Ketiga hidangan ini sama-sama menggunakan sayuran rebus sebagai bahan utama. Sayuran yang umum digunakan meliputi kacang panjang, bayam, tauge, kentang, tahu, tempe, dan telur rebus.
-*   **Saus Kacang:** Ketiganya disajikan dengan saus kacang sebagai bumbu utama. Meskipun resep saus kacang bisa sedikit berbeda, bahan dasarnya tetap kacang tanah goreng yang dihaluskan.
+*   **Saus Kacang:** Ketiganya disajikan dengan saus kacang sebagai bumbu utama. Meskipun resep saus kacang bisa sedikit berbeda, bahan dasarnya tetap kacang tanah yang dihaluskan.
 *   **Asal Daerah:** Ketiga hidangan ini berasal dari Jawa Barat, Indonesia.
-*   **Makanan Sehat:** Ketiga hidangan ini relatif sehat karena kaya akan serat, protein, dan vitamin dari sayuran.
+*   **Makanan Sehat:** Ketiganya relatif sehat karena kandungan sayurannya yang tinggi.
 
 **Perbedaan:**
 
 | Fitur          | Gado-Gado                               | Ketoprak                               | Karedok                               |
 | -------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| **Bahan Tambahan** | Lontong/ketupat, kerupuk, emping melinjo | Lontong/ketupat, kerupuk, bawang goreng | Tidak menggunakan lontong/ketupat/kerupuk |
-| **Saus Kacang**  | Lebih manis dan kental, sering ditambahkan sedikit asam jawa | Lebih gurih dan sedikit pedas, menggunakan bumbu kacang yang lebih kuat | Lebih segar dan ringan, menggunakan sedikit terasi dan cabai rawit |
-| **Penyajian**    | Sayuran dan bahan lain dicampur dengan saus kacang | Sayuran dan bahan lain disiram dengan saus kacang | Sayuran disajikan mentah atau setengah matang dengan saus kacang di sampingnya (dipisah) |
-| **Tekstur**      | Lebih lembut karena sayuran direbus lebih lama | Lebih renyah karena ada kerupuk dan bawang goreng | Lebih segar dan renyah karena sayuran mentah |
-| **Ciri Khas**    | Rasa manis yang dominan, sering disajikan dengan kerupuk udang | Rasa gurih dan pedas yang kuat, sering disajikan dengan kerupuk kulit | Rasa segar dan alami dari sayuran, menggunakan sambal karedok yang khas |
+| **Bahan Tambahan** | Lontong/ketupat, kerupuk, emping        | Lontong/ketupat, kerupuk, bawang goreng | Tidak menggunakan lontong/ketupat/kerupuk |
+| **Saus Kacang**   | Lebih manis dan kental, sering ditambahkan sedikit asam jawa | Lebih gurih dan sedikit pedas, sering ditambahkan kecap manis | Lebih segar dan pedas, menggunakan cabai rawit yang diulek langsung ke saus kacang |
+| **Penyajian**    | Sayuran dan bahan lain dicampur dengan saus kacang | Sayuran dan bahan lain disiram dengan saus kacang | Sayuran disiram dengan saus kacang yang sudah dicampur dengan bumbu (termasuk cabai rawit) |
+| **Ciri Khas**    | Rasa manis dan campuran tekstur         | Rasa gurih dan aroma bawang goreng      | Rasa segar, pedas, dan aroma kacang yang kuat |
+| **Asal Daerah Spesifik** | Jakarta                               | Jakarta                               | Sunda (biasanya daerah Cianjur dan sekitarnya) |
 
-**Sing
-=== Token Usage: 28 (prompt), 500 (completions), 528 (total) ===
+**Penjelasan Tambahan:**
+
+*   **Gado-gado** sering dianggap sebagai hidangan yang lebih "kaya" karena adanya lontong/ketupat dan kerupuk/emping yang menambah tekstur dan rasa.
+*   **Ketoprak** identik dengan aroma bawang goreng yang kuat dan rasa gurih yang dominan.
+*   **Karedok** adalah yang paling sederhana dan segar. Karedok tidak menggunakan lontong/ketupat/kerupuk, dan saus kacangnya cenderung lebih pedas dan segar karena penggunaan cabai rawit yang diulek.
+
+Semoga penjelasan ini membantu!
+=== Token Usage: 28 (prompt), 593 (completions), 621 (total) ===
 
 ##### Prompt: Jelaskan budaya Indonesia menyapa orang yang lebih tua? #####
 ##### Response #####
@@ -8415,24 +8490,58 @@ Budaya Indonesia sangat menjunjung tinggi rasa hormat kepada orang yang lebih tu
 
 **Prinsip Umum:**
 
-*   **Menunduk:** Menundukkan kepala sedikit saat menyapa adalah tanda hormat yang umum di seluruh Indonesia. Ini menunjukkan kerendahan hati dan pengakuan atas status yang lebih tinggi.
-*   **Menggunakan Sapaan Hormat:** Bahasa Indonesia memiliki banyak sapaan yang menunjukkan rasa hormat, seperti:
-    *   **Bapak/Ibu:** Sapaan paling umum untuk orang yang lebih tua, terlepas dari status pernikahan.
-    *   **Kakek/Nenek:** Digunakan untuk kakek dan nenek sendiri, atau orang yang lebih tua yang dianggap seperti kakek/nenek.
-    *   **Pakde/Bude:** Digunakan di Jawa untuk paman dan bibi dari pihak ayah.
-    *   **Kakang/Mbak:** Digunakan di Jawa untuk kakak laki-laki/perempuan, tetapi juga bisa digunakan untuk orang yang lebih tua yang dianggap seperti kakak.
-    *   **Inang:** Digunakan di Sumatera Utara untuk ibu atau wanita yang lebih tua.
-    *   **Daeng:** Digunakan di Sulawesi Selatan untuk orang yang dihormati.
-*   **Menggunakan Bahasa yang Sopan:** Hindari bahasa gaul atau bahasa informal saat berbicara dengan orang yang lebih tua. Gunakan bahasa Indonesia yang baik dan benar, atau bahasa daerah yang sopan.
-*   **Menawarkan Bantuan:** Menawarkan bantuan kepada orang yang lebih tua, seperti membawakan barang atau membantu mereka berjalan, adalah tindakan yang sangat dihargai.
-*   **Menunggu Mereka Berbicara Dahulu:** Dalam percakapan, biarkan orang yang lebih tua berbicara terlebih dahulu. Dengarkan dengan penuh perhatian dan jangan menyela.
-*   **Menghindari Kontak Mata Langsung yang Terlalu Lama:** Meskipun kontak mata penting dalam komunikasi, menatap terlalu lama bisa dianggap tidak sopan, terutama kepada orang yang lebih tua.
+*   **Menunduk:** Menundukkan kepala sedikit saat berbicara dengan orang yang lebih tua adalah tanda hormat yang umum di seluruh Indonesia.
+*   **Bahasa Tubuh yang Sopan:** Hindari kontak mata yang terlalu lama (terutama dengan orang yang sangat dihormati), jangan menyilangkan tangan di depan dada, dan jaga postur tubuh yang tegak namun tidak kaku.
+*   **Bahasa yang Halus:** Menggunakan bahasa yang sopan dan halus (bahasa *krama* di Jawa, misalnya) sangat penting. Hindari bahasa gaul atau bahasa yang terlalu santai.
+*   **Menawarkan Bantuan:** Menawarkan bantuan, terutama kepada orang tua atau yang kesulitan, adalah bentuk penghormatan yang sangat dihargai.
+*   **Menunggu Disapa Duluan:** Dalam beberapa situasi, terutama jika bertemu dengan orang yang sangat dihormati, lebih baik menunggu mereka menyapa terlebih dahulu.
 
-**Contoh Cara Menyapa Berdasarkan Daerah:**
+**Contoh Cara Menyapa Berdasarkan Daerah dan Tingkat Keakraban:**
 
-*   **Jawa:**
-    *   **"Sugeng ndalu, Bapak/Ibu"** (Selamat sore, Bapak/Ibu
-=== Token Usage: 21 (prompt), 500 (completions), 521 (total) ===
+**1. Jawa &amp; Bali:**
+
+*   **"Sugeng ndalu/sore/wengi" (Jawa) / "Om Swastiastu" (Bali):** Sapaan umum yang digunakan sepanjang hari.
+*   **"Sampun dhahar?" (Jawa):**  "Sudah makan?" - Pertanyaan ini menunjukkan perhatian dan kepedulian.
+*   **"Kula nuwun sewu" (Jawa):** "Permisi" - Digunakan saat ingin meminta sesuatu atau melewati orang yang lebih tua.
+*   **Menggunakan *krama inggil* (bahasa Jawa halus):**  Contoh: "Panjenengan sehat?" (Bagaimana kesehatan Anda?) bukan "Kamu sehat?".
+*   **Menyentuh tangan orang tua (Jawa):**  Setelah menyapa, biasanya menyentuh tangan orang tua dan membawanya ke dahi sebagai tanda hormat (tradisi ini semakin jarang dilakukan di perkotaan).
+*   **Di Bali:** Menyapa dengan *Om Swastiastu* dan seringkali disertai dengan memberikan persembahan kecil (seperti bunga atau daun sirih).
+
+**2. Sumatera (Melayu, Batak, Minang, dll.):**
+
+*   **"Assalamualaikum" (Melayu):** Sapaan umum di kalangan Muslim.
+*   **"Horas" (Batak):** Sapaan umum di kalangan suku Batak.
+*   **"Salam alaikum" (Minang):** Sapaan umum di kalangan suku Minang.
+*   **"Adik/Kakak/Abang/Makcik/Pakcik":**  Panggilan kekerabatan yang digunakan untuk menunjukkan rasa hormat, bahkan jika tidak ada hubungan darah.  Misalnya, memanggil wanita yang lebih tua dengan "Makcik" (bibi) atau pria yang lebih tua dengan "Pakcik" (paman).
+*   **Menawarkan tempat duduk:**  Sangat umum menawarkan tempat duduk kepada orang yang lebih tua.
+
+**3. Sulawesi (Bugis, Makassar, Toraja, dll.):**
+
+*   **"Mappia' (Bugis/Makassar):** Sapaan umum.
+*   **"Sikke' (Toraja):** Sapaan umum.
+*   **Menawarkan pinang dan sirih:**  Tradisi yang umum di beberapa daerah di Sulawesi sebagai tanda keramahan dan penghormatan.
+
+**4. Kalimantan (Dayak, Banjar, dll.):**
+
+*   **"Hau" (Dayak):** Sapaan umum.
+*   **"Assalamualaikum" (Banjar):** Sapaan umum di kalangan Muslim.
+*   **Menawarkan minuman atau makanan:**  Tanda keramahan dan penghormatan.
+
+**5. Nusa Tenggara (Sasak, Flores, Timor, dll.):**
+
+*   **"Om Swastiastu" (Bali - pengaruh budaya Bali):** Sapaan umum di beberapa pulau.
+*   **Sapaan lokal:** Setiap suku memiliki sapaan khasnya sendiri.
+*   **Menawarkan bantuan:**  Sangat dihargai.
+
+**6. Papua &amp; Maluku:**
+
+*   **Sapaan lokal:** Setiap suku memiliki sapaan khasnya sendiri.
+*   **Menawarkan makanan atau minuman:**  Tanda keramahan dan penghormatan.
+
+**Penting untuk diingat:**
+
+*   **Konteks:**  Cara menyapa juga tergantung pada konteks situasinya. Menyapa tetangga di jalan akan berbeda dengan menyapa
+=== Token Usage: 21 (prompt), 1024 (completions), 1045 (total) ===
 
 ##### Prompt: Jelaskan budaya pulang kampung ketika lebaran? #####
 ##### Response #####
@@ -8440,23 +8549,44 @@ Budaya pulang kampung saat Lebaran, atau yang dikenal dengan istilah "mudik" di 
 
 **1. Definisi dan Latar Belakang:**
 
-*   **Mudik:** Secara harfiah berarti "kembali". Dalam konteks Lebaran, mudik adalah perjalanan pulang ke kampung halaman, biasanya ke desa atau kota asal keluarga, yang dilakukan oleh perantau atau orang yang bekerja dan tinggal di kota besar.
-*   **Latar Belakang:** Tradisi ini berakar kuat pada nilai-nilai kekeluargaan, gotong royong, dan tradisi Islam. Lebaran adalah momen penting untuk mempererat tali silaturahmi dengan keluarga besar, meminta maaf atas kesalahan, dan berbagi kebahagiaan. Dahulu, mudik dilakukan karena keterbatasan komunikasi dan transportasi, sehingga Lebaran menjadi satu-satunya waktu untuk berkumpul dengan keluarga. Meskipun teknologi modern telah berkembang, tradisi ini tetap bertahan dan bahkan semakin kuat.
+*   **Mudik:** Secara harfiah berarti "pulang" atau "kembali". Dalam konteks Lebaran, mudik merujuk pada perjalanan pulang ke kampung halaman, biasanya ke desa atau kota asal keluarga, yang dilakukan oleh perantau atau orang yang bekerja dan tinggal di kota-kota besar.
+*   **Latar Belakang:** Tradisi mudik berakar kuat pada nilai-nilai kekeluargaan, gotong royong, dan tradisi Islam. Lebaran adalah momen penting untuk mempererat tali silaturahmi dengan keluarga besar, meminta maaf atas kesalahan, dan berbagi kebahagiaan. Bagi banyak orang, kampung halaman adalah tempat di mana mereka merasa memiliki identitas dan akar budaya yang kuat.
 
 **2. Prosesi dan Tradisi Mudik:**
 
-*   **Persiapan:** Persiapan mudik biasanya dimulai jauh-jauh hari. Ini meliputi:
+*   **Persiapan:** Persiapan mudik biasanya dimulai jauh-jauh hari sebelum Lebaran. Ini meliputi:
     *   **Pembelian Tiket:** Membeli tiket transportasi (kereta api, bus, pesawat, kapal laut) yang seringkali sangat sulit karena tingginya permintaan.
-    *   **Persiapan Barang Bawaan:** Mempersiapkan pakaian lebaran, oleh-oleh untuk keluarga, dan kebutuhan lainnya.
-    *   **Membersihkan Rumah:** Membersihkan dan merapikan rumah di kampung halaman, seringkali dibantu oleh tetangga atau keluarga yang sudah lebih dulu tiba.
-    *   **Zakat Fitrah:** Membayar zakat fitrah sebagai kewajiban agama sebelum Lebaran.
+    *   **Persiapan Barang Bawaan:** Mempersiapkan pakaian lebaran baru, oleh-oleh untuk keluarga, dan uang tunai (karena fasilitas perbankan di kampung mungkin terbatas).
+    *   **Membersihkan Rumah:** Membersihkan dan merapikan rumah di kampung halaman, seringkali dibantu oleh tetangga atau saudara yang sudah lebih dulu tiba.
+    *   **Zakat Fitrah:** Membayar zakat fitrah sebagai kewajiban agama sebelum Hari Raya.
 *   **Perjalanan:** Perjalanan mudik seringkali menjadi tantangan tersendiri karena:
-    *   **Kemacetan:** Kemacetan parah di jalan raya, terutama di jalur-jalur utama menuju kampung halaman.
-    *   **Kepadatan Penumpang:** Kepadatan penumpang di berbagai moda transportasi.
-    *   **Kelelahan:** Perjalanan yang panjang dan melelahkan.
+    *   **Kepadatan Lalu Lintas:** Jalan raya dan terminal transportasi sangat padat, menyebabkan kemacetan parah.
+    *   **Kelelahan:** Perjalanan bisa memakan waktu berjam-jam atau bahkan berhari-hari, terutama bagi mereka yang menggunakan transportasi darat.
+    *   **Biaya:** Biaya transportasi dan akomodasi selama mudik bisa cukup besar.
 *   **Tiba di Kampung Halaman:** Kedatangan di kampung halaman disambut dengan hangat oleh keluarga dan tetangga.
-*   **Tradisi Lebaran:** Setelah tiba, berbagai tradisi
-=== Token Usage: 19 (prompt), 500 (completions), 519 (total) ===
+*   **Tradisi Lebaran:** Setelah tiba, berbagai tradisi Lebaran dijalankan:
+    *   **Shalat Idul Fitri:** Melaksanakan shalat Idul Fitri berjamaah di masjid atau lapangan.
+    *   **Silaturahmi:** Mengunjungi rumah keluarga besar, tetangga, dan teman-teman untuk saling bermaaf-maafan.
+    *   **Open House:** Menerima tamu di rumah untuk berbagi hidangan Lebaran dan bersilaturahmi.
+    *   **Makan-makan:** Menikmati hidangan khas Lebaran seperti ketupat, opor ayam, rendang, dan kue-kue tradisional.
+    *   **Tradisi Lokal:** Setiap daerah memiliki tradisi Lebaran yang unik, seperti pertunjukan seni, lomba, atau upacara adat.
+
+**3. Makna Budaya Mudik:**
+
+*   **Mempererat Tali Silaturahmi:** Mudik adalah wujud nyata dari pentingnya menjaga hubungan baik dengan keluarga dan kerabat.
+*   **Menghidupkan Ekonomi Lokal:** Arus mudik memberikan dampak positif bagi perekonomian di kampung halaman, terutama bagi pedagang kecil dan penyedia jasa.
+*   **Melestarikan Budaya:** Mudik menjadi sarana untuk melestarikan tradisi dan budaya lokal, terutama bagi generasi muda yang tumbuh di kota.
+*   **Refleksi Diri:** Momen Lebaran dan mudik seringkali menjadi waktu untuk merenungkan diri, memperbaiki diri, dan memperbarui komitmen untuk menjadi pribadi yang lebih baik.
+*   **Identitas dan Akar Budaya:** Mudik mengingatkan perantau akan identitas dan akar budaya mereka, serta memberikan rasa memiliki dan kebanggaan.
+
+**4. Perubahan dan Tantangan Mudik Modern:**
+
+*   **Peningkatan Mobilitas:** Semakin banyak orang merantau ke kota-kota besar, sehingga arus mudik semakin meningkat setiap tahun.
+*   **Diversifikasi Transportasi:** Selain transportasi tradisional, kini banyak orang memilih menggunakan sepeda motor, mobil pribadi, atau bahkan ojek online untuk mudik.
+*   **Mudik Virtual:** Di era digital, mudik virtual (melalui video call atau media sosial) menjadi alternatif bagi mereka yang tidak bisa pulang kampung secara fisik.
+*   **Tantangan Infrastruktur:** Keterbatasan infrastruktur transportasi dan akomodasi di beberapa daerah masih menjadi tantangan utama dalam pelaksanaan mudik.
+*
+=== Token Usage: 19 (prompt), 1024 (completions), 1043 (total) ===
 
 ##### Prompt: Sebutkan berbagai jenis kopi dan karakteristik rasanya yang berasal dari Indonesia #####
 ##### Response #####
@@ -8466,9 +8596,9 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 
 *   **Asal:** Dataran Tinggi Gayo, Aceh Tengah dan Bener Meriah.
 *   **Karakteristik Rasa:**
-    *   **Body:** Penuh dan tebal.
+    *   **Body:** Penuh dan tebal (full-bodied).
     *   **Aroma:** Floral, herbal, dan sedikit rempah.
-    *   **Rasa:** Kompleks, dengan sentuhan cokelat, karamel, dan sedikit rasa buah (seperti buah beri atau apel).  Seringkali memiliki rasa *earthy* (tanah) yang khas.
+    *   **Rasa:** Kompleks, dengan sentuhan cokelat, karamel, dan sedikit rasa buah (cherry atau berry).  Seringkali memiliki rasa earthy (tanah) yang khas.
     *   **Acidity:** Sedang hingga tinggi, memberikan kesegaran.
 *   **Grade:** Umumnya Grade 1 (kualitas terbaik).
 
@@ -8477,25 +8607,67 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 *   **Asal:** Dataran Tinggi Toraja, Sulawesi Selatan.
 *   **Karakteristik Rasa:**
     *   **Body:** Penuh dan lembut.
-    *   **Aroma:** Floral, fruity, dan sedikit *spicy*.
-    *   **Rasa:** Cokelat gelap, kacang-kacangan, dan sedikit rasa buah (seperti jeruk atau anggur).  Toraja dikenal dengan rasa *fruity* yang unik.
-    *   **Acidity:** Rendah hingga sedang, memberikan rasa yang lembut di lidah.
+    *   **Aroma:** Fruity (buah-buahan), floral, dan sedikit nutty (kacang).
+    *   **Rasa:**  Cokelat gelap, karamel, dan sedikit rasa rempah.  Toraja dikenal dengan rasa manis alami dan sedikit rasa asam yang menyegarkan.
+    *   **Acidity:** Rendah hingga sedang.
 *   **Grade:** Umumnya Grade 1.
 
 **3. Kopi Mandailing (Sumatera Utara)**
 
 *   **Asal:** Daerah Mandailing, Sumatera Utara.
 *   **Karakteristik Rasa:**
-    *   **Body:** Sangat penuh dan tebal.
+    *   **Body:** Sangat penuh dan tebal (heavy-bodied).
     *   **Aroma:** Earthy, herbal, dan sedikit rempah.
-    *   **Rasa:** Cokelat gelap, rempah-rempah, dan sedikit rasa tanah.  Mandailing seringkali memiliki rasa *earthy* yang kuat.
-    *   **Acidity:** Rendah, memberikan rasa yang lembut dan tidak asam.
+    *   **Rasa:** Cokelat gelap, rempah-rempah, dan sedikit rasa buah (plum atau berry).  Mandailing seringkali memiliki rasa yang kuat dan kompleks.
+    *   **Acidity:** Rendah.
 *   **Grade:** Umumnya Grade 1.
 
 **4. Kopi Lintong (Sumatera Utara)**
 
 *   **Asal:** Daerah Lintong, Sumatera Utara.
-=== Token Usage: 23 (prompt), 500 (completions), 523 (total) ===
+*   **Karakteristik Rasa:**
+    *   **Body:** Penuh dan lembut.
+    *   **Aroma:** Fruity, floral, dan sedikit herbal.
+    *   **Rasa:** Cokelat, karamel, dan sedikit rasa buah (jeruk atau apel).  Lintong dikenal dengan rasa yang seimbang dan lembut.
+    *   **Acidity:** Sedang.
+*   **Grade:** Umumnya Grade 1.
+
+**5. Kopi Flores (Nusa Tenggara Timur)**
+
+*   **Asal:** Pulau Flores, Nusa Tenggara Timur.
+*   **Karakteristik Rasa:**
+    *   **Body:** Sedang hingga penuh.
+    *   **Aroma:** Floral, fruity, dan sedikit nutty.
+    *   **Rasa:** Cokelat, karamel, dan sedikit rasa buah (plum atau berry).  Flores seringkali memiliki rasa yang unik dan kompleks.
+    *   **Acidity:** Sedang hingga tinggi.
+*   **Grade:** Umumnya Grade 1.
+
+**6. Kopi Java (Jawa)**
+
+*   **Asal:** Pulau Jawa (terutama daerah Ijen, Preanger, dan Lampung).
+*   **Karakteristik Rasa:**
+    *   **Body:** Sedang.
+    *   **Aroma:** Cokelat, rempah-rempah, dan sedikit floral.
+    *   **Rasa:** Cokelat, karamel, dan sedikit rasa rempah.  Java dikenal dengan rasa yang lembut dan seimbang.
+    *   **Acidity:** Rendah.
+*   **Grade:** Bervariasi, tergantung daerah dan proses.
+
+**7. Kopi Bali (Bali)**
+
+*   **Asal:** Pulau Bali.
+*   **Karakteristik Rasa:**
+    *   **Body:** Sedang hingga penuh.
+    *   **Aroma:** Floral, fruity, dan sedikit cokelat.
+    *   **Rasa:** Cokelat, karamel, dan sedikit rasa buah (jeruk atau apel).  Bali dikenal dengan rasa yang lembut dan seimbang.
+    *   **Acidity:** Sedang.
+*   **Grade:** Bervariasi, tergantung daerah dan proses.
+
+**8. Kopi Luwak (Seluruh Indonesia)**
+
+*   **Asal:** Seluruh Indonesia (terutama Sumatera, Jawa, dan Bali).
+*   **Karakteristik Rasa:**
+    *   **Body:** Sedang hingga
+=== Token Usage: 23 (prompt), 1024 (completions), 1047 (total) ===
 
 </pre>
 </div>
@@ -8529,7 +8701,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [42]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">IPyImage</span>
@@ -8544,7 +8716,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[42]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <img alt="No description has been provided for this image" height="300" src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/p-blog/candy.JPG" width="300"/>
 </div>
@@ -8556,7 +8728,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [43]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">invoke_sealion_multimodal</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">image_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">system_prompt</span><span class="o">=</span><span class="s2">"You are a helpful assistant."</span><span class="p">,</span> <span class="n">print_response</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -8612,7 +8784,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [46]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">invoke_sealion_multimodal</span><span class="p">(</span>
@@ -8631,8 +8803,10 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Based on the image, the animal on the candy appears to be a **turtle**. Each candy has a small turtle design on it.
-=== Token Usage: 282 (prompt), 28 (completions), 310 (total) ===
+<pre>Based on the image, the animal on the candy appears to be a **turtle**. 
+
+You can see the shape of a turtle shell and head on each of the candies.
+=== Token Usage: 282 (prompt), 37 (completions), 319 (total) ===
 </pre>
 </div>
 </div>
@@ -8665,7 +8839,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [47]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">IPyImage</span>
@@ -8681,7 +8855,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[47]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <img alt="No description has been provided for this image" height="300" src="https://huggingface.co/datasets/merve/vlm_test_images/resolve/main/fruit_knife.png" width="300"/>
 </div>
@@ -8693,7 +8867,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [48]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">IPyImage</span>
@@ -8709,7 +8883,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[48]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <img alt="No description has been provided for this image" height="300" src="https://huggingface.co/datasets/merve/vlm_test_images/resolve/main/candy.JPG" width="300"/>
 </div>
@@ -8721,7 +8895,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [49]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
@@ -8762,7 +8936,7 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [50]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -8835,44 +9009,44 @@ Indonesia adalah surga bagi pecinta kopi, dengan berbagai jenis kopi yang memili
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Using endpoint: gemma-sea-lion-v4-27b-it-250825-0928
-Response: , see you a picture of what appears to be jelly beans (or similar candies) in a hand, and a picture of fruit and a knife on a cutting board. 
+<pre>Using endpoint: gemma-sea-lion-v4-27b-it-250901-0659
+Response: Okay I see the images. You have a hand holding colorful, small candies (likely Jelly Belly brand, judging by the shape and design) and a picture of various fruits, a knife, and a cutting board. 
 
-Here are some cautions combining these images, assuming you're thinking about combining them in some way (like a composite image, a story, or a concept):
+Here are some cautions, considering you might be thinking of combining these images or concepts:
 
-**1. Health &amp; Safety (Especially if portraying consumption):**
+**Regarding the Candies &amp; Fruit:**
 
-*   **Sugar Content:** The candies are high in sugar. Combining this with fruit could reinforce a message of excessive sugar intake. If you're creating content for children, be mindful of this.
-*   **Knife Safety:** The knife in the second image is a potential hazard. If you're depicting someone using it, emphasize safe handling. Avoid any imagery that could encourage dangerous behavior.
-*   **Choking Hazard:** Small candies can be a choking hazard, especially for young children. If your image includes children, avoid showing them putting the candies in their mouths.
+*   **Sugar Intake:** Combining images of candy with fruit could imply a focus on sugary foods. Be mindful of promoting a balanced diet. Too much sugar isn't healthy.
+*   **Choking Hazard:** The candies are small. If you're using this in a context where young children might see it, it's important to note they could be a choking hazard.
+*   **Misleading Association:** Don't present the candies *as if* they are a healthy alternative to fruit. They are very different nutritionally.
 
-**2. Conceptual/Message Considerations:**
+**Regarding the Knife &amp; Fruit (and potentially the candies):**
 
-*   **Contrasting Themes:** The images present a contrast between processed sweets and natural fruit. Consider what message you want to convey with this juxtaposition. Is it about healthy choices, indulgence, or something else?
-*   **Visual Balance:** When combining the images, think about visual balance. The colors and textures are quite different.
-*   **Context is Key:** The meaning of the combination depends heavily on the context. A simple image of fruit and candy might be harmless, but if it's used in an advertisement or to promote a specific diet, it could be misleading.
+*   **Sharp Objects:** The knife is a potential hazard. If you're using this image in a context where children might see it, be very careful about how it's presented. Avoid showing anyone, especially children, handling the knife.
+*   **Safe Food Handling:** If you're depicting food preparation, ensure it aligns with safe food handling practices (e.g., clean surfaces, proper knife techniques).
+*   **Potential for Injury:** If you're thinking of visually combining the candies and the knife (e.g., "cutting" the candies), this could be interpreted as promoting unsafe behavior.
 
-**3. Potential Misinterpretation:**
+**General Cautions:**
 
-*   **Food Safety:** Be careful not to create an image that implies the candies are *made from* or *mixed with* the fruit in an unsafe way.
-
-
-
-**To help me give you more specific cautions, could you tell me:**
-
-*   **What are you planning to *do* with these images?** (e.g., create a meme, a digital artwork, a story, a presentation, etc.)
-*   **Who is your target audience?** (e.g., children, adults, general public)
-*   **What message are you trying to convey?**
+*   **Context is Key:** The specific cautions depend *entirely* on how you intend to use these images. What is the purpose of combining them? Are you making a collage, a meme, a presentation, or something else?
+*   **Target Audience:** Who will be viewing this? (Children, adults, etc.) This greatly impacts the level of caution needed.
 
 
 
-**Disclaimer:** *I am an AI and cannot provide professional health or safety advice. These are general cautions based on the images provided.*
+**To help me give you more specific advice, could you tell me:**
+
+*   **What are you planning to *do* with these images?** (e.g., create a graphic, write a story, etc.)
+*   **Who is your intended audience?**
+
+
+
+
 
 Metrics:
 Time to First Token (TTFT): 0.01 seconds
-Total Tokens Generated: 491
-Total Latency: 8.84 seconds
-Tokens per second: 55.57
+Total Tokens Generated: 470
+Total Latency: 18.55 seconds
+Tokens per second: 25.33
 </pre>
 </div>
 </div>
@@ -8894,7 +9068,7 @@ Tokens per second: 55.57
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Clean up</span>
@@ -8902,6 +9076,43 @@ Tokens per second: 55.57
 <span class="n">predictor</span><span class="o">.</span><span class="n">delete_endpoint</span><span class="p">(</span><span class="n">delete_endpoint_config</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9dd76446-9f4b-4bb6-b175-4a47e431b0f8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Note that failure to delete the endpoint will incur costs.</p>
+<p>The ml.g5.12xlarge and ml.g6e.48xlarge instances costs (for running 24/7 SageMaker Realtime Inference in us-east-1) are:</p>
+<table>
+<thead>
+<tr>
+<th>Instance Type</th>
+<th>Cost/hr</th>
+<th>Cost/day</th>
+<th>Cost/month</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ml.g5.12xlarge</code></td>
+<td>USD  7.09</td>
+<td>USD 170.16</td>
+<td>USD  5,175.70</td>
+</tr>
+<tr>
+<td><code>ml.g6e.48xlarge</code></td>
+<td>USD 37.664</td>
+<td>USD 903.936</td>
+<td>USD 27,494.72</td>
+</tr>
+</tbody>
+</table>
+<p>It is highly recommended that you delete endpoints that are no longer in use, or that you choose an option such as <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/endpoint-auto-scaling-zero-instances.html">SageMaker Scale down to zero feature</a> as mentioned in this blog post: <a href="https://aws.amazon.com/blogs/machine-learning/unlock-cost-savings-with-the-new-scale-down-to-zero-feature-in-amazon-sagemaker-inference/">Unlock cost savings with the new scale down to zero feature in SageMaker Inference</a>.</p>
 </div>
 </div>
 </div>
@@ -8914,13 +9125,13 @@ Tokens per second: 55.57
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Use this to generate html version of the Jupyter notebook</span>
-<span class="o">!</span>jupyter<span class="w"> </span>nbconvert<span class="w"> </span>Gemma-SEA-LION-v4-27B-Instruct.ipynb<span class="w"> </span>--to<span class="w"> </span>html
+<span class="o">!</span>jupyter<span class="w"> </span>nbconvert<span class="w"> </span>Gemma-SEA-LION-v4-27B-IT.ipynb<span class="w"> </span>--to<span class="w"> </span>html
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=180f8495-711a-4563-9dfa-c4683200a2c6">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=8ca9b38c-ec78-42d5-98cf-1abea942adaa">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
